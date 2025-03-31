@@ -12,8 +12,7 @@ def search_flights(from_city, to_city, departure_date, return_date):
         page.wait_for_selector("input[aria-label='Where from?']")
         
         # Enter Departure City
-        from_input = from_input = page.locator("input[aria-label='Where from?']")
-        time.sleep(1)
+        from_input = page.locator("input[aria-label='Where from?']")
         from_input.fill(from_city)
         time.sleep(1)
         page.keyboard.press("ArrowDown")
@@ -22,8 +21,7 @@ def search_flights(from_city, to_city, departure_date, return_date):
         time.sleep(1)      
 
         # Enter Destination City
-        to_input = page.locator("input[aria-label='Where to?']")
-        time.sleep(1)
+        to_input = page.locator("input[aria-label^='Where to']")
         to_input.fill(to_city)
         time.sleep(1)
         page.keyboard.press("ArrowDown")
@@ -32,46 +30,28 @@ def search_flights(from_city, to_city, departure_date, return_date):
         time.sleep(1)
 
         # Click on Departure Date Picker
-        page.click("div[aria-label='Departure']")
-        time.sleep(1)
-        page.click(f"div[data-day='{departure_date}']")
+        departure_input = page.locator("input[aria-label^='Departure']").first
+        departure_input.fill(departure_date)
         time.sleep(1)
 
         # Click on Return Date Picker
-        page.click("div[aria-label='Return']")
+        return_input = page.locator("input[aria-label^='Return']").first
+        return_input.fill(return_date)
         time.sleep(1)
-        page.click(f"div[data-day='{return_date}']")
-        time.sleep(1)
-
-        # Click Done button
-        page.click("button[aria-label='Done']")
-        time.sleep(1)
+        return_input.fill(return_date)
 
         # Click Search
-        page.keyboard.press("Enter")
-        print("🔍 Searching for flights...")
+        page.click("button[aria-label='Search']")
+        time.sleep(1)
 
         # Wait for results to load
         page.wait_for_selector("div[role='main']", timeout=15000)
         print("✅ Flights loaded successfully!")
 
-        # 🛑 Wait until flight prices appear
-        page.wait_for_selector('div[aria-label*="$"]', timeout=15000)  
-
         # ✅ Extract flight details
-        flight_prices = page.locator('div[aria-label*="$"]').all_inner_texts()
-        airline_names = page.locator('div[aria-label*="Operated by"]').all_inner_texts()
-        flight_durations = page.locator('div[aria-label*="hour"]').all_inner_texts()
-
-        # 🖨 Print extracted data
-        print("\n✈️ Flight Prices:")
-        print(flight_prices)
-
-        print("\n🏷 Airline Names:")
-        print(airline_names)
-
-        print("\n⏳ Flight Durations:")
-        print(flight_durations)
+        flight_prices = ""
+        airline_names = ""
+        flight_durations = ""
 
         # Close browser
         browser.close()
