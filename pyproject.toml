@@ -1,0 +1,12 @@
+[project]
+name = "flight-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi[standard]>=0.115.12",
+    "google-generativeai>=0.8.4",
+    "playwright>=1.51.0",
+    "uvicorn>=0.34.0",
+]
