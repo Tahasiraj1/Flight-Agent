@@ -149,10 +149,10 @@ def search_flights(from_city, to_city, departure_date, return_date):
         # Return data for further use
         return best_flights
 
-flights_data = search_flights("New York", "Bangkok", "2025-05-01", "2025-05-15")
-text_output = "\n\n".join("".join(f"{key}: {value}" for key, value in flight.items()) for flight in flights_data)
-result = Runner.run_sync(flight_agent, text_output)
+# flights_data = search_flights("New York", "Bangkok", "2025-05-01", "2025-05-15")
+# text_output = "\n\n".join("".join(f"{key}: {value}" for key, value in flight.items()) for flight in flights_data)
+# result = Runner.run_sync(flight_agent, text_output)
 
-# Print extracted data
-print(f"\n🔹 Final Extracted Flight Data:\n{flights_data}\n", )
-print(f"\n🔹 Flight Agent Response:\n{result.final_output}\n", )
+# # Print extracted data
+# print(f"\n🔹 Final Extracted Flight Data:\n{flights_data}\n", )
+# print(f"\n🔹 Flight Agent Response:\n{result.final_output}\n", )
