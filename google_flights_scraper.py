@@ -1,6 +1,19 @@
 from playwright.sync_api import sync_playwright
 import time
 
+def extract_best_flights(page):
+    """Extracts the top 3 best flights from the provided HTML."""
+    
+    # Wait for the flight list to load
+    page.wait_for_selector("ul.Rk10dc > li.pIav2d", timeout=15000)
+    
+    flight_elements = page.locator("ul.Rk10dc > li.pIav2d").all()
+    
+    for i in flight_elements[:1]:
+        flight = i.inner_text()
+        
+    return flight
+
 
 def search_flights(from_city, to_city, departure_date, return_date):
     with sync_playwright() as p:
@@ -40,32 +53,30 @@ def search_flights(from_city, to_city, departure_date, return_date):
         time.sleep(1)
         return_input.fill(return_date)
 
-        # Click Search
+        # Click Done button
         page.click("button[aria-label='Search']")
         time.sleep(1)
+
+        # Click Search
+        page.keyboard.press("Enter")
+        print("🔍 Searching for flights...")
 
         # Wait for results to load
         page.wait_for_selector("div[role='main']", timeout=15000)
         print("✅ Flights loaded successfully!")
 
-        # ✅ Extract flight details
-        flight_prices = ""
-        airline_names = ""
-        flight_durations = ""
+        best_flights = extract_best_flights(page)
 
         # Close browser
         browser.close()
 
         # Return data for further use
-        return {
-            "prices": flight_prices,
-            "airlines": airline_names,
-            "durations": flight_durations
-        }
+        return best_flights
+        
 
 
 # Run the scraper
 flights_data = search_flights("New York", "Bangkok", "2025-05-01", "2025-05-15")
 
 # Check extracted data
-print("\n🔹 Final Extracted Flight Data:", flights_data)
+print(f"\n🔹 Final Extracted Flight Data:\n{flights_data}\n", )
