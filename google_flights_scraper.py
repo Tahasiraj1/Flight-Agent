@@ -1,6 +1,7 @@
 from playwright.sync_api import sync_playwright
 import time
 
+# Extract the best flight from the provided HTML
 def extract_best_flights(page):
     """Extracts the top 3 best flights from the provided HTML."""
     
@@ -14,7 +15,7 @@ def extract_best_flights(page):
         
     return flight
 
-
+# Automatically search for flights
 def search_flights(from_city, to_city, departure_date, return_date):
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
@@ -72,11 +73,9 @@ def search_flights(from_city, to_city, departure_date, return_date):
 
         # Return data for further use
         return best_flights
-        
-
 
 # Run the scraper
 flights_data = search_flights("New York", "Bangkok", "2025-05-01", "2025-05-15")
 
-# Check extracted data
+# Print extracted data
 print(f"\n🔹 Final Extracted Flight Data:\n{flights_data}\n", )
