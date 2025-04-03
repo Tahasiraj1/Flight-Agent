@@ -1,29 +1,7 @@
 from playwright.sync_api import sync_playwright
-from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel
 import time
-import os
 
-api_key = os.getenv("GEMINI_API_KEY")
-if api_key is None:
-    raise ValueError("Please set the GEMINI_API_KEY environment variable")
-
-provider = AsyncOpenAI(
-    api_key=api_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai",
-)
-
-model = OpenAIChatCompletionsModel(
-    model='gemini-2.0-flash',
-    openai_client=provider,
-)
-
-flight_agent = Agent(
-    name="Flight Agent",
-    model=model,
-    instructions="As a travel agent, your task is to extract the best flight from the provided raw flight data based on the user query and generate a clear, concise, and informative response. Additionally, you should explain why you selected that particular flight, highlighting the criteria it meets based on the user's preferences (e.g., cheapest, best, price, duration, stops).",
-)
-
-# Extract the best flight from the provided HTML
+# Extract all the flights from the provided HTML
 def extract_best_flights(page):
     """Extracts the top 3 best flights from the provided HTML."""
     flights = []
@@ -89,7 +67,6 @@ def extract_best_flights(page):
 
     return flights
 
-
 # Automatically search for flights
 def search_flights(from_city, to_city, departure_date, return_date):
     with sync_playwright() as p:
@@ -148,11 +125,3 @@ def search_flights(from_city, to_city, departure_date, return_date):
 
         # Return data for further use
         return best_flights
-
-# flights_data = search_flights("New York", "Bangkok", "2025-05-01", "2025-05-15")
-# text_output = "\n\n".join("".join(f"{key}: {value}" for key, value in flight.items()) for flight in flights_data)
-# result = Runner.run_sync(flight_agent, text_output)
-
-# # Print extracted data
-# print(f"\n🔹 Final Extracted Flight Data:\n{flights_data}\n", )
-# print(f"\n🔹 Flight Agent Response:\n{result.final_output}\n", )
