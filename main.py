@@ -1,6 +1,7 @@
 from agents import Runner, Agent, AsyncOpenAI, OpenAIChatCompletionsModel
 import google.generativeai as genai
 from google_flights_scraper import search_flights
+import datetime
 import os
 import re
 import json
@@ -62,9 +63,17 @@ to_city = travel_details.get("to_city")
 departure_date = travel_details.get("departure_date").strip()
 return_date = travel_details.get("return_date").strip()
 
-print("🚨 RESPONSE FROM GEMINI 🚨")
-print(from_city, to_city, departure_date, return_date)
+today = datetime.date.today()
 
+if departure_date < today:
+    raise ValueError(f"🚨 Departure date {departure_date} cannot be in the past.")
+if return_date < today:
+    raise ValueError(f"🚨 Return date {return_date} cannot be in the past.")
+if return_date < departure_date:
+    raise ValueError(f"🚨 Return date {return_date} cannot be before departure date {departure_date}.")
+if not from_city or not to_city:
+    raise ValueError("🚨 From city and to city cannot be empty.")
+    
 flights_data = search_flights(from_city, to_city, departure_date, return_date)
 
 text_output = "\n\n".join("".join(f"{key}: {value}" for key, value in flight.items()) for flight in flights_data)
