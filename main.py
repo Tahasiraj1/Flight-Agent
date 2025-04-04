@@ -1,10 +1,10 @@
 from agents import Runner, Agent, AsyncOpenAI, OpenAIChatCompletionsModel
 import google.generativeai as genai
 from google_flights_scraper import search_flights
-import datetime
+import click
+import json
 import os
 import re
-import json
 
 user_query = input("Enter a user query: ")
 
@@ -60,19 +60,8 @@ travel_details = json.loads(json_text)
 # Extract structured fields
 from_city = travel_details.get("from_city")
 to_city = travel_details.get("to_city")
-departure_date = travel_details.get("departure_date").strip()
-return_date = travel_details.get("return_date").strip()
-
-today = datetime.date.today()
-
-if departure_date < today:
-    raise ValueError(f"🚨 Departure date {departure_date} cannot be in the past.")
-if return_date < today:
-    raise ValueError(f"🚨 Return date {return_date} cannot be in the past.")
-if return_date < departure_date:
-    raise ValueError(f"🚨 Return date {return_date} cannot be before departure date {departure_date}.")
-if not from_city or not to_city:
-    raise ValueError("🚨 From city and to city cannot be empty.")
+departure_date = travel_details.get("departure_date")
+return_date = travel_details.get("return_date")
     
 flights_data = search_flights(from_city, to_city, departure_date, return_date)
 
@@ -80,5 +69,5 @@ text_output = "\n\n".join("".join(f"{key}: {value}" for key, value in flight.ite
 result = Runner.run_sync(flight_agent, text_output)
 
 # Print extracted data
-print(f"\n🔹 Final Extracted Flight Data:\n{flights_data}\n", )
-print(f"\n🔹 Flight Agent Response:\n{result.final_output}\n", )
+print(f"\n🔹 Final Extracted Flight Data:\n{flights_data}\n")
+print(click.style(f"\n🔹 Flight Agent Response:\n{result.final_output}\n", fg='green'))
