@@ -6,7 +6,8 @@ import json
 import os
 import re
 
-user_query = input("Enter a user query: ")
+user_query = input(f"\n\nEnter a user query: ")
+print(f"\n🔹 User Query:\n{user_query}\n")
 
 api_key = os.getenv("GEMINI_API_KEY")
 if api_key is None:
@@ -70,4 +71,4 @@ result = Runner.run_sync(flight_agent, text_output)
 
 # Print extracted data
 print(f"\n🔹 Final Extracted Flight Data:\n{flights_data}\n")
-print(click.style(f"\n🔹 Flight Agent Response:\n{result.final_output}\n", fg='green'))
+print(click.style(f"\n🔹 Flight Agent Response:\n\n{result.final_output}\n\n", fg='green'))
