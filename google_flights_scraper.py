@@ -3,7 +3,7 @@ import time
 
 # Extract all the flights from the provided HTML
 def extract_best_flights(page):
-    """Extracts the top 3 best flights from the provided HTML."""
+    """Extracts all flights from Google Flights page"""
     flights = []
     
     # Wait for flights to load
