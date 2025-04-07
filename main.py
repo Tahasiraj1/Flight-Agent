@@ -13,7 +13,7 @@ import json
 import os
 import re
 
-install_playwright.install_playwright_browsers()
+install_playwright.install()
 # --- UI Design ---
 
 st.set_page_config(page_title="Your Personal Flight Agent", page_icon="✈️")
