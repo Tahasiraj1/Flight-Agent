@@ -1,3 +1,4 @@
+import install_playwright
 import sys
 import asyncio
 
@@ -12,6 +13,7 @@ import json
 import os
 import re
 
+install_playwright.install_playwright_browsers()
 # --- UI Design ---
 
 st.set_page_config(page_title="Your Personal Flight Agent", page_icon="✈️")

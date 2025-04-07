@@ -70,7 +70,7 @@ def extract_best_flights(page):
 # Automatically search for flights
 def search_flights(from_city, to_city, departure_date, return_date):
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=False)
         page = browser.new_page()
 
         # Open Google Flights
