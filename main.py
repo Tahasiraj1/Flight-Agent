@@ -24,7 +24,11 @@ set_user_query(user_query)
 if st.button("Search for Flights", use_container_width=True):
     with st.spinner("🔍 Processing your request and searching for flights..."):
 
-        from_city, to_city, departure_date, return_date = query_parser(user_query)
+        try:
+            from_city, to_city, departure_date, return_date = query_parser(user_query)
+        except ValueError as e:
+            st.error(f"Error: {str(e)}")
+            st.stop()
         
         with st.spinner(f"✈️ Searching for flights from {from_city} to {to_city} on {departure_date}..."):
             flights_data = search_flights(from_city, to_city, departure_date, return_date)

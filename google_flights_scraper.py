@@ -68,14 +68,14 @@ def extract_best_flights(page):
     return flights
 
 # Automatically search for flights
-def search_flights(from_city, to_city, departure_date, return_date):
+def search_flights(from_city: str, to_city: str, departure_date: str, return_date: str) -> list:
     """Fill in the details of the flight.
     
     Args:
-        from_city: The departure city.
-        to_city: The destination city.
-        departure_date: The departure date.
-        return_date: The return date.
+        from_city: The departure city eg: New York
+        to_city: The destination city eg: Bangkok
+        departure_date: The departure date eg: 2025-06-01
+        return_date: The return date eg: 2025-06-15
 
     Returns:
         flights: A list of flights.
