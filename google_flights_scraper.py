@@ -69,6 +69,17 @@ def extract_best_flights(page):
 
 # Automatically search for flights
 def search_flights(from_city, to_city, departure_date, return_date):
+    """Fill in the details of the flight.
+    
+    Args:
+        from_city: The departure city.
+        to_city: The destination city.
+        departure_date: The departure date.
+        return_date: The return date.
+
+    Returns:
+        flights: A list of flights.
+    """
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         page = browser.new_page()
@@ -118,10 +129,10 @@ def search_flights(from_city, to_city, departure_date, return_date):
         page.wait_for_selector("div[role='main']", timeout=15000)
         print("✅ Flights loaded successfully!")
 
-        best_flights = extract_best_flights(page)
+        flights_data = extract_best_flights(page)
 
         # Close browser
         browser.close()
 
         # Return data for further use
-        return best_flights
+        return flights_data
