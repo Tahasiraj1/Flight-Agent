@@ -1,7 +1,6 @@
 from playwright.async_api import async_playwright
 from playwright._impl._errors import TimeoutError, Error as PlaywrightError
 from agents import function_tool
-import time
 
 async def extract_best_flights(page):
     """Extracts all flights from Google Flights page"""
