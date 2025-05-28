@@ -1,5 +1,7 @@
-from agents import Agent, AsyncOpenAI, OpenAIChatCompletionsModel, set_tracing_disabled
+from agents import Agent, AsyncOpenAI, OpenAIChatCompletionsModel, set_tracing_disabled, FunctionTool
 from utils import get_user_query
+from google_flights_scraper import search_flights
+from instructions import FLIGHT_AGENT_INSTRUCTIONS
 import os
 
 set_tracing_disabled(disabled=True)
@@ -23,5 +25,6 @@ user_query = get_user_query()
 flight_agent = Agent(
     name="Flight Agent",
     model=model,
-    instructions=f"As a travel agent, your task is to extract the best flight from the provided raw flight data based on the user query and generate a clear, concise, and informative response. Additionally, you should explain why you selected that particular flight, highlighting the criteria it meets based on the user's preferences {user_query}.",
+    instructions=FLIGHT_AGENT_INSTRUCTIONS,
+    tools=[search_flights]
 )
